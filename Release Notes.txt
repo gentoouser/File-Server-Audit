@@ -1,0 +1,103 @@
+SQL Setup
+	*MySQL Database setup:
+		CREATE DATABASE FilesServer;
+	    Use FilesServer;
+
+		CREATE TABLE FileAudit (
+					ID	INT(100) UNSIGNED AUTO_INCREMENT PRIMARY KEY,	
+					FolderPath				LONGTEXT,
+					AccountSAMAccountName	LONGTEXT,
+					GroupSAMAccountName		LONGTEXT,
+					ManagedBy				LONGTEXT,
+					Inheritance				LONGTEXT,
+					IsInherited				LONGTEXT,
+					Rights					LONGTEXT,
+					Owner					LONGTEXT,
+					Computer				LONGTEXT,
+					RunDate					bigint
+		)
+	*MS SQL Database setup:
+		CREATE DATABASE FilesServer;
+	    Use FilesServer;
+
+		CREATE TABLE FileAudit (
+					ID	INT(100) UNSIGNED AUTO_INCREMENT PRIMARY KEY,	
+					FolderPath				nvarchar(MAX),
+					AccountSAMAccountName	nvarchar(MAX),
+					GroupSAMAccountName		nvarchar(MAX),
+					ManagedBy				nvarchar(MAX),
+					Inheritance				nvarchar(MAX),
+					IsInherited				nvarchar(MAX),
+					Rights					nvarchar(MAX),
+					Owner					nvarchar(MAX),
+					Computer				nvarchar(MAX),
+					RunDate					bigint
+		)
+
+Version 2.2.1 (2015-06-22)
+	*Fixed some exit bugs
+	*Added SQL Caching so 500 records are batched and ented at one time reducing load on SQL server and local machine. 
+	*.Net 4.5	
+Version 2.2.0 (2011-10-28)
+	*Removed Hardcoded Database names
+	*Added support for MySQL
+	*Removed all log file output
+	*cleaned up interface
+Version 2.1.1 (2011-05-02)
+	*Fixed Error: Circular Group Dependency message
+	*Changed grouping so less accounts are marked as Direct and System accounts are marked as System.
+Version 2.1.0
+	*Added checks for circular dependency. This avoids infinite loops; also logs as an error.
+	*Lumped Computer with User class. This means that computers ACLs are treated as User ACLs. 
+	*Added Exception for Contact class.
+	*Switch out Arrays for Dictionary. This makes Caching easier to under stand and less looping. 
+		dicADUserType     'Hold Cache for AD Users/Groups (AD sAMAccountName, AD Object Type)
+		dicADGroup        'Holds Group sAMAccountName and Array of Users sAMAccountName
+		dicADGroupManager 'Holds Group sAMAccountName and Managed By name
+		dicADGroupSubGroup'Holds Group sAMAccountName and Sub-Group sAMAccountName
+Version 2.0.9
+	*Fixed issue with deleted accounts.
+	*Fixed issue with AD caching.
+	*Fixed issue with start button.
+	*Added a delete all SQL Records.
+Version 2.0.8
+	*Updated SQL Server.
+Version 2.0.7
+	*Fixed issue where program would skip over folder if there was only one sub-folder.
+	*Changed it so that all error would be printed in the Output tab.
+	*Fixed issue where inserting in to SQL could cause array out of bounds.
+	*Fixed issue about reporting errors to GUI.
+	*Added a Feature to remove old SQL Records from the current day.
+	*Trying to Fix Cancel Buttion
+Version 2.0.6
+	*Added Total Execution Time to Notify on end
+Version 2.0.5
+	*Added Field IsInherited to Text output.
+	*Added Table Field:
+		 IsInherited		varchar(50)
+Version 2.0.4
+	*Fixed an array issue where zero sub-directories created an error.
+	*Unknown Domains get no group enumeration.
+	*Added Managed By for Group membership.
+	*Added Inserting data directly into SQL Database.
+		Table Name: FileAudit
+			Column Name				Data Type
+			ID						int
+			FolderPath				nvarchar(MAX)
+			AccountSAMAccountName	nvarchar(MAX)
+			GroupSAMAccountName		nvarchar(MAX)
+			ManagedBy				nvarchar(MAX)
+			Inheritance				nvarchar(MAX)
+			IsInherited				nvarchar(MAX)
+			Rights					nvarchar(MAX)
+			Owner					nvarchar(MAX)
+			RunDate					bigint
+Version 2.0.3
+	*Added Remove Inherited feature that only shows permissions that are not inherited.
+Version 2.0.2
+	*Commented Most of the Code.
+	*Updated Separate File Logs Classes.
+Version 2.0.1
+	*Added a cache for AD groups to speed up enueration.
+	*Added a cache for AD users to speed up enueration.
+	*Fixed logic problem with RecursiveSearch sub.
